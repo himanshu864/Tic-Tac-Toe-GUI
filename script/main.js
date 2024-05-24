@@ -5,10 +5,10 @@ const tiles = document.querySelectorAll(".tile");
 const score = document.querySelector(".score");
 const scoreP1 = document.getElementById("scoreP1");
 const scoreP2 = document.getElementById("scoreP2");
-let p1 = 0;
-let p2 = 0;
 
 let playerOneTurn = true;
+let p1 = 0;
+let p2 = 0;
 let grid = [
     [-1, -1, -1],
     [-1, -1, -1],
@@ -27,6 +27,7 @@ const pressButtonRestart = () => {
     button.addEventListener("click", () => {
         button.classList.add("hide");
         score.classList.add("hide");
+        // Reset everything on click
         grid = [
             [-1, -1, -1],
             [-1, -1, -1],
@@ -35,8 +36,11 @@ const pressButtonRestart = () => {
         tiles.forEach(tile => {
             tile.innerText = "";
             tile.style.backgroundColor = "lavender";
+            tile.classList.remove("focusOut");
+            tile.classList.remove("blink");
         });
         playerOneTurn = true;
+
         startGame();
     })
 }
@@ -58,14 +62,13 @@ const handleClick = (e) => {
 
     if (playerOneTurn) {
         cell.innerText = "X";
-        playerOneTurn = false;
         grid[row][col] = 1;
     }
     else {
         cell.innerText = "O";
-        playerOneTurn = true;
         grid[row][col] = 0;
     }
+    playerOneTurn ^= true;
     cell.style.backgroundColor = "blueviolet";
 
     areYouWinningSon();
