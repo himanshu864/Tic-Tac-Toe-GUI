@@ -1,0 +1,96 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: aliceblue;
+}
+
+.everything {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.heading {
+    font-size: 4rem;
+    text-align: center;
+    background-color: purple;
+    width: 100%;
+}
+
+.cards {
+    display: flex;
+    gap: 30px;
+}
+
+.card {
+    width: 150px;
+    height: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(236, 215, 255);
+    border-radius: 5px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+}
+
+.game-grid {
+    display: grid;
+    /* idk responsive */
+    grid-template-rows: repeat(3, 100px);
+    grid-template-columns: repeat(3, 100px);
+    gap: 5px;
+}
+
+.tile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    transition: 150ms;
+    border: 2px solid purple;
+    font-size: 80px;
+    background-color: lavender;
+}
+
+.tile:hover {
+    background-color: rgb(204, 159, 247);
+}
+
+.won {
+    background-color: blueviolet;
+    color: white;
+}
+
+#control-button {
+    background-color: darkslateblue;
+    color: white;
+    border: 2px solid black;
+    font-size: 30px;
+    width: 275px;
+    height: 50px;
+}
+
+#control-button:hover {
+    background-color: slateblue;
+}
+
+.hide {
+    display: none;
+}
+
+.score {
+    padding: 20px;
+    background-color: purple;
+    color: white;
+    font-size: 35px;
+    font-weight: bolder;
+    /* margin-bottom: 30px; */
+    height: 100px;
+}

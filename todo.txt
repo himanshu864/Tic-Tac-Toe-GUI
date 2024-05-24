@@ -1,0 +1,7 @@
+> Wanna make the project prettier and add a bunch of features
+> Add names by edit overlay popup and display accordingly
+> Add blinking or line animation for winning line
+> Add shadow for each turn circle / shadow
+> Add Single Player computer logic
+> Add music and pretty animations
+> Dark mode?
