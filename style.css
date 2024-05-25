@@ -40,6 +40,41 @@ body {
     box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
 }
 
+.control-mode {
+    display: flex;
+    gap: 20px;
+}
+
+.control-mode>button {
+    color: white;
+    background-color: darkslateblue;
+    border: 2px solid black;
+    border-radius: 40px;
+    font-size: 25px;
+    width: 200px;
+    height: 50px;
+    cursor: pointer;
+}
+
+.control-mode>button:hover {
+    background-color: slateblue;
+}
+
+#control-button {
+    background-color: darkslateblue;
+    color: white;
+    border: 2px solid black;
+    border-radius: 40px;
+    font-size: 30px;
+    width: 285px;
+    height: 50px;
+    cursor: pointer;
+}
+
+#control-button:hover {
+    background-color: slateblue;
+}
+
 .game-grid {
     display: grid;
     /* idk responsive */
@@ -66,20 +101,6 @@ body {
 .won {
     background-color: blueviolet;
     color: white;
-}
-
-#control-button {
-    background-color: darkslateblue;
-    color: white;
-    border: 2px solid black;
-    font-size: 30px;
-    width: 275px;
-    height: 50px;
-    cursor: pointer;
-}
-
-#control-button:hover {
-    background-color: slateblue;
 }
 
 .hide {

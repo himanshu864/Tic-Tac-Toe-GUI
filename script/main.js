@@ -1,12 +1,20 @@
 import { scoreMate } from "./gamelogic.js";
+import { algoPlayerTwo } from "./computerlogic.js";
 
 const button = document.getElementById("control-button");
+const mode = document.querySelector(".control-mode");
 const tiles = document.querySelectorAll(".tile");
 const score = document.querySelector(".score");
 const scoreP1 = document.getElementById("scoreP1");
 const scoreP2 = document.getElementById("scoreP2");
 const container = document.querySelector(".game-grid");
+const sp = document.getElementById("sp");
+const mp = document.getElementById("mp");
 
+const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+let areYouSingle = true;
+let gameOver = false;
 let playerOneTurn = true;
 let p1 = 0;
 let p2 = 0;
@@ -16,11 +24,31 @@ let grid = [
     [-1, -1, -1]
 ];
 
+sp.addEventListener("click", () => {
+    areYouSingle = true;
+    mode.classList.add("hide");
+})
+
+mp.addEventListener("click", () => {
+    areYouSingle = false;
+    mode.classList.add("hide");
+})
+
+
 // Adds event listens to empty tiles
 const startGame = () => {
     tiles.forEach(tile => {
-        tile.addEventListener("click", handleClick, { once: true });
+        if (tile.innerText == "")
+            tile.addEventListener("click", handleClick, { once: true });
     })
+}
+
+const stopGame = () => {
+    tiles.forEach(tile => {
+        if (tile.innerText == "") {
+            tile.removeEventListener("click", handleClick);
+        }
+    });
 }
 
 // Start game by pressing button
@@ -43,6 +71,7 @@ const pressButtonRestart = () => {
             tile.classList.remove("blink");
         });
         playerOneTurn = true;
+        gameOver = false;
 
         startGame();
     })
@@ -58,7 +87,7 @@ const restartButton = () => {
 }
 
 // Modified grid based on player
-const handleClick = (e) => {
+const handleClick = async (e) => {
     const cell = e.target;
     const idx = Array.from(tiles).indexOf(cell);
     const row = Math.floor(idx / 3);
@@ -72,10 +101,20 @@ const handleClick = (e) => {
         cell.innerText = "O";
         grid[row][col] = 0;
     }
-    playerOneTurn ^= true;
-    cell.style.backgroundColor = "blueviolet";
 
+    cell.style.backgroundColor = "blueviolet";
+    playerOneTurn = !playerOneTurn;
+
+    // Check if curr player wins
     areYouWinningSon();
+
+    // Computer turn with delay
+    if (areYouSingle && !gameOver && !playerOneTurn) {
+        stopGame();
+        await delay(500);
+        startGame();
+        algoPlayerTwo(grid);
+    }
 }
 
 // Logic for gameover
@@ -97,11 +136,10 @@ const areYouWinningSon = () => {
             score.innerText = "It's a draw!";
         }
 
+        gameOver = true;
         // removes tiles click event onces game over and adds button
         restartButton();
-        tiles.forEach(tile => {
-            tile.removeEventListener("click", handleClick);
-        });
+        stopGame();
     }
 }
 
