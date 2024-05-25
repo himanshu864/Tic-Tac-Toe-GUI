@@ -6,6 +6,9 @@ const tiles = document.querySelectorAll(".tile");
 const score = document.querySelector(".score");
 const scoreP1 = document.getElementById("scoreP1");
 const scoreP2 = document.getElementById("scoreP2");
+const container = document.querySelector(".game-grid");
+
+const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 let gameOver = false;
 let playerOneTurn = true;
@@ -20,13 +23,17 @@ let grid = [
 // Adds event listens to empty tiles
 const startGame = () => {
     tiles.forEach(tile => {
-        tile.addEventListener("click", handleClick, { once: true });
+        if (tile.innerText == "") {
+            tile.addEventListener("click", handleClick, { once: true });
+        }
     })
 }
 
 const stopGame = () => {
     tiles.forEach(tile => {
-        tile.removeEventListener("click", handleClick);
+        if (tile.innerText == "") {
+            tile.removeEventListener("click", handleClick);
+        }
     });
 }
 
@@ -35,6 +42,8 @@ const pressButtonRestart = () => {
     button.addEventListener("click", () => {
         button.classList.add("hide");
         score.classList.add("hide");
+        container.classList.remove("hide");
+
         // Reset everything on click
         grid = [
             [-1, -1, -1],
@@ -59,6 +68,7 @@ const restartButton = () => {
     button.innerText = "Play Again";
     button.classList.remove("hide");
     score.classList.remove("hide");
+
     pressButtonRestart();
 }
 
@@ -86,6 +96,9 @@ const handleClick = async (e) => {
 
     // If game not over and computer turn
     if (!gameOver && !playerOneTurn) {
+        stopGame();
+        await delay(500);
+        startGame();
         algoPlayerTwo(grid);
     }
 }

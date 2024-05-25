@@ -5,6 +5,7 @@ const tiles = document.querySelectorAll(".tile");
 const score = document.querySelector(".score");
 const scoreP1 = document.getElementById("scoreP1");
 const scoreP2 = document.getElementById("scoreP2");
+const container = document.querySelector(".game-grid");
 
 let playerOneTurn = true;
 let p1 = 0;
@@ -27,6 +28,8 @@ const pressButtonRestart = () => {
     button.addEventListener("click", () => {
         button.classList.add("hide");
         score.classList.add("hide");
+        container.classList.remove("hide");
+
         // Reset everything on click
         grid = [
             [-1, -1, -1],
@@ -50,6 +53,7 @@ const restartButton = () => {
     button.innerText = "Play Again";
     button.classList.remove("hide");
     score.classList.remove("hide");
+
     pressButtonRestart();
 }
 

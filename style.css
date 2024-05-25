@@ -56,10 +56,11 @@ body {
     border: 2px solid purple;
     font-size: 80px;
     background-color: lavender;
+    cursor: pointer;
 }
 
 .tile:hover {
-    background-color: rgb(204, 159, 247);
+    background-color: rgba(137, 43, 226, 0.75) !important;
 }
 
 .won {
@@ -74,6 +75,7 @@ body {
     font-size: 30px;
     width: 275px;
     height: 50px;
+    cursor: pointer;
 }
 
 #control-button:hover {
@@ -85,12 +87,11 @@ body {
 }
 
 .score {
-    padding: 20px;
+    padding: 10px;
     background-color: purple;
     color: white;
-    font-size: 35px;
+    font-size: 30px;
     font-weight: bolder;
-    height: 100px;
 }
 
 .blink {
