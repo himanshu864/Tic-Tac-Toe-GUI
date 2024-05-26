@@ -125,12 +125,20 @@ const areYouWinningSon = () => {
 
     if (result != -1) {
         if (result == 1) {
-            score.innerText = "You win, Player One!";
+            if (areYouSingle) {
+                score.innerText = "You Win!";
+            } else {
+                score.innerText = "You win, Player One!";
+            }
             p1++;
             scoreP1.innerText = p1;
         }
         if (result == 0) {
-            score.innerText = "You win, Player Two!";
+            if (areYouSingle) {
+                score.innerText = "You Lose!";
+            } else {
+                score.innerText = "You win, Player Two!";
+            }
             p2++;
             scoreP2.innerText = p2;
         }
