@@ -1,5 +1,3 @@
 > Add names by edit overlay popup and display accordingly
 > Add shadow for each turn circle / shadow
-> Add music and pretty animations
-> Redesign code architecture for more user-friendly Gameplay
-> Dark mode
+> Add music

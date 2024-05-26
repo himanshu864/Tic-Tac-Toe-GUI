@@ -27,11 +27,13 @@ let grid = [
 sp.addEventListener("click", () => {
     areYouSingle = true;
     mode.classList.add("hide");
+    button.classList.remove("hide");
 })
 
 mp.addEventListener("click", () => {
     areYouSingle = false;
     mode.classList.add("hide");
+    button.classList.remove("hide");
 })
 
 

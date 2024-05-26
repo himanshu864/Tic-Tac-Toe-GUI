@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Tic Toc Toe</title>
+    <title>Tic Tac Toe</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -12,12 +12,15 @@
         <h1 class="heading">TIC TAC TOE</h1>
 
         <div class="cards">
-            <div class="card">P1 : <span id="scoreP1">0</span></div>
-            <div class="card">P2 : <span id="scoreP2">0</span></div>
+            <div class="card">P1 :&nbsp;<span id="scoreP1">0</span></div>
+            <div class="card">P2 :&nbsp;<span id="scoreP2">0</span></div>
         </div>
 
-        <div><button id="control-button">Start New Game</button></div>
-        <div class="control-mode"><button id="sp">Single Player</button><button id="mp">Two Players</button></div>
+        <div class="control-mode">
+            <button id="sp">Single Player</button>
+            <button id="mp">Two Players</button>
+        </div>
+        <div><button id="control-button" class="hide">Start New Game</button></div>
 
         <div class="game-grid hide">
             <div class="tile"></div>
@@ -32,8 +35,6 @@
         </div>
 
         <div class="score hide"></div>
-
-        <div></div>
     </section>
 
     <!-- Included ES6 Modules -->
