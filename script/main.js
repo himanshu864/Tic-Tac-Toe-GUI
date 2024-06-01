@@ -1,5 +1,6 @@
-import { scoreMate } from "./gamelogic.js";
-import { algoPlayerTwo } from "./computerlogic.js";
+import { scoreMate } from "./winBlink.js";
+// import { algoPlayerTwo } from "./midLogic.js";
+import { algoPlayerTwo } from "./impossibleAI.js";
 
 const button = document.getElementById("control-button");
 const mode = document.querySelector(".control-mode");
@@ -24,6 +25,7 @@ let grid = [
     [-1, -1, -1]
 ];
 
+// Choose Single or Multi-Player
 sp.addEventListener("click", () => {
     areYouSingle = true;
     mode.classList.add("hide");
@@ -35,7 +37,6 @@ mp.addEventListener("click", () => {
     mode.classList.add("hide");
     button.classList.remove("hide");
 })
-
 
 // Adds event listens to empty tiles
 const startGame = () => {
