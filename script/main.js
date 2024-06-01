@@ -1,9 +1,11 @@
 import { scoreMate } from "./winBlink.js";
-// import { algoPlayerTwo } from "./midLogic.js";
-import { algoPlayerTwo } from "./impossibleAI.js";
+import { algoPlayerTwo as easy } from "./easyAI.js";
+import { algoPlayerTwo as medium } from "./mediumAI.js";
+import { algoPlayerTwo as impossible } from "./impossibleAI.js";
 
 const button = document.getElementById("control-button");
 const mode = document.querySelector(".control-mode");
+const difficultySlider = document.querySelector(".diff");
 const tiles = document.querySelectorAll(".tile");
 const score = document.querySelector(".score");
 const scoreP1 = document.getElementById("scoreP1");
@@ -11,12 +13,16 @@ const scoreP2 = document.getElementById("scoreP2");
 const container = document.querySelector(".game-grid");
 const sp = document.getElementById("sp");
 const mp = document.getElementById("mp");
+const easyButton = document.getElementById("easy");
+const mediumButton = document.getElementById("mid");
+const impossibleButton = document.getElementById("imp");
 
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 let areYouSingle = true;
 let gameOver = false;
 let playerOneTurn = true;
+let difficulty = 2;
 let p1 = 0;
 let p2 = 0;
 let grid = [
@@ -29,12 +35,28 @@ let grid = [
 sp.addEventListener("click", () => {
     areYouSingle = true;
     mode.classList.add("hide");
-    button.classList.remove("hide");
+    difficultySlider.classList.remove("hide");
 })
-
 mp.addEventListener("click", () => {
     areYouSingle = false;
     mode.classList.add("hide");
+    button.classList.remove("hide");
+})
+
+// Choose Difficulity
+easyButton.addEventListener("click", () => {
+    difficulty = 1;
+    difficultySlider.classList.add("hide");
+    button.classList.remove("hide");
+})
+mediumButton.addEventListener("click", () => {
+    difficulty = 2;
+    difficultySlider.classList.add("hide");
+    button.classList.remove("hide");
+})
+impossibleButton.addEventListener("click", () => {
+    difficulty = 3;
+    difficultySlider.classList.add("hide");
     button.classList.remove("hide");
 })
 
@@ -116,7 +138,13 @@ const handleClick = async (e) => {
         stopGame();
         await delay(500);
         startGame();
-        algoPlayerTwo(grid);
+
+        if (difficulty == 1)
+            easy(grid);
+        else if (difficulty == 2)
+            medium(grid);
+        else
+            impossible(grid);
     }
 }
 

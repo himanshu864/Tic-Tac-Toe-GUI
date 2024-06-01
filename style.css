@@ -79,6 +79,10 @@ body {
     transform: scale(1.05);
 }
 
+.diff>button {
+    width: 120px;
+}
+
 #control-button {
     background: linear-gradient(145deg, #6a0dad, #4b0082);
     color: #e0e0e0;
