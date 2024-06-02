@@ -1,135 +1,84 @@
 const tiles = document.querySelectorAll(".tile");
 
-// Check if there's a winning move and execute it
-const checkWin = (grid, player) => {
-    for (let i = 0; i < 3; i++) {
-        // Check rows
-        if (grid[i][0] === player && grid[i][1] === player && grid[i][2] === -1) return 3 * i + 2;
-        if (grid[i][0] === player && grid[i][2] === player && grid[i][1] === -1) return 3 * i + 1;
-        if (grid[i][1] === player && grid[i][2] === player && grid[i][0] === -1) return 3 * i;
+let combination = [
+    [0, 1, 2], [3, 4, 5], [6, 7, 8],
+    [0, 3, 6], [1, 4, 7], [2, 5, 8],
+    [0, 4, 8], [2, 4, 6]
+];
 
-        // Check columns
-        if (grid[0][i] === player && grid[1][i] === player && grid[2][i] === -1) return 6 + i;
-        if (grid[0][i] === player && grid[2][i] === player && grid[1][i] === -1) return 3 + i;
-        if (grid[1][i] === player && grid[2][i] === player && grid[0][i] === -1) return i;
+function availableMoves(grid) {
+    let moves = [];
+    for (let i = 0; i < 9; i++)
+        if (grid[Math.floor(i / 3)][i % 3] == -1)
+            moves.push(i);
+    return moves;
+}
+
+function winCheck(grid) {
+    for (const line of combination) {
+        if (line.every(index => grid[Math.floor(index / 3)][index % 3] === 0))
+            return 1; // Computer wins
+        if (line.every(index => grid[Math.floor(index / 3)][index % 3] === 1))
+            return -1; // Player wins
+    }
+    if (availableMoves(grid).length === 0)
+        return 0; // draw
+    return 2; // continue
+}
+
+// Heart of the algorithm : Backtracking Tree of future outcomes
+// Minimize loss and Maximize Vistory!
+// Calc all possible outcomes and allote them utility accordingly
+
+// Utility = (remaining tiles + 1) * sign;
+// sign : +ve for computer win, -ve for cp lose, 0 for draw
+// We assume Player will move their best move, hence minimize score
+// While we maximize our score.
+function minMax(grid, player) {
+    let moves = availableMoves(grid);
+    let sign = winCheck(grid);
+
+    if (sign != 2) {
+        return (moves.length + 1) * sign;
     }
 
-    // Check diagonals
-    if (grid[0][0] === player && grid[1][1] === player && grid[2][2] === -1) return 8;
-    if (grid[0][0] === player && grid[2][2] === player && grid[1][1] === -1) return 4;
-    if (grid[1][1] === player && grid[2][2] === player && grid[0][0] === -1) return 0;
-    if (grid[0][2] === player && grid[1][1] === player && grid[2][0] === -1) return 6;
-    if (grid[0][2] === player && grid[2][0] === player && grid[1][1] === -1) return 4;
-    if (grid[1][1] === player && grid[2][0] === player && grid[0][2] === -1) return 2;
+    // set initial score = -Infinity for computer to beat it
+    let bestScore = (player ? Infinity : -Infinity);
 
-    return -1;
-}
+    for (const move of moves) {
+        // make move
+        grid[Math.floor(move / 3)][move % 3] = player;
+        // Recursively call minMax and determine the score
+        const currScore = minMax(grid, player ? 0 : 1);
+        // backtrack
+        grid[Math.floor(move / 3)][move % 3] = -1;
 
-const minimax = (grid, depth, isMaximizing) => {
-    let score = evaluate(grid);
-    if (score === 10) return score - depth;
-    if (score === -10) return score + depth;
-    if (!isMovesLeft(grid)) return 0;
-
-    if (isMaximizing) {
-        let best = -Infinity;
-        for (let i = 0; i < 3; i++) {
-            for (let j = 0; j < 3; j++) {
-                if (grid[i][j] === -1) {
-                    grid[i][j] = 0;
-                    best = Math.max(best, minimax(grid, depth + 1, false));
-                    grid[i][j] = -1;
-                }
-            }
-        }
-        return best;
-    } else {
-        let best = Infinity;
-        for (let i = 0; i < 3; i++) {
-            for (let j = 0; j < 3; j++) {
-                if (grid[i][j] === -1) {
-                    grid[i][j] = 1;
-                    best = Math.min(best, minimax(grid, depth + 1, true));
-                    grid[i][j] = -1;
-                }
-            }
-        }
-        return best;
+        // make current player choose best score for himself
+        if (player) bestScore = Math.min(bestScore, currScore);
+        else bestScore = Math.max(bestScore, currScore);
     }
+    return bestScore;
 }
 
-const findBestMove = (grid) => {
-    let bestVal = -Infinity;
-    let bestMove = -1;
-    for (let i = 0; i < 3; i++) {
-        for (let j = 0; j < 3; j++) {
-            if (grid[i][j] === -1) {
-                grid[i][j] = 0;
-                let moveVal = minimax(grid, 0, false);
-                grid[i][j] = -1;
-                if (moveVal > bestVal) {
-                    bestMove = 3 * i + j;
-                    bestVal = moveVal;
-                }
-            }
-        }
-    }
-    return bestMove;
-}
+// AI function to make best possible move
+export function algoPlayerTwo(grid) {
+    let bestMove = null;
+    let bestScore = -100;
+    let moves = availableMoves(grid);
 
-const isMovesLeft = (grid) => {
-    for (let i = 0; i < 3; i++)
-        for (let j = 0; j < 3; j++)
-            if (grid[i][j] === -1)
-                return true;
-    return false;
-}
+    // checks which move has best score for computer
+    for (const move of moves) {
+        grid[Math.floor(move / 3)][move % 3] = 0;
+        const score = minMax(grid, 1);
+        grid[Math.floor(move / 3)][move % 3] = -1;
 
-const evaluate = (grid) => {
-    for (let i = 0; i < 3; i++) {
-        if (grid[i][0] === grid[i][1] && grid[i][1] === grid[i][2]) {
-            if (grid[i][0] === 0) return 10;
-            if (grid[i][0] === 1) return -10;
+        if (score > bestScore) {
+            bestScore = score;
+            bestMove = move;
         }
     }
 
-    for (let i = 0; i < 3; i++) {
-        if (grid[0][i] === grid[1][i] && grid[1][i] === grid[2][i]) {
-            if (grid[0][i] === 0) return 10;
-            if (grid[0][i] === 1) return -10;
-        }
-    }
-
-    if (grid[0][0] === grid[1][1] && grid[1][1] === grid[2][2]) {
-        if (grid[0][0] === 0) return 10;
-        if (grid[0][0] === 1) return -10;
-    }
-
-    if (grid[0][2] === grid[1][1] && grid[1][1] === grid[2][0]) {
-        if (grid[0][2] === 0) return 10;
-        if (grid[0][2] === 1) return -10;
-    }
-
-    return 0;
-}
-
-// Computer Clicks
-export const algoPlayerTwo = (grid) => {
-    // If instant win, take it
-    let winMove = checkWin(grid, 0);
-    if (winMove !== -1) {
-        tiles[winMove].click();
-        return;
-    }
-
-    // If instant lose, prevent it
-    let blockMove = checkWin(grid, 1);
-    if (blockMove !== -1) {
-        tiles[blockMove].click();
-        return;
-    }
-
-    // Else Minimax
-    let bestMove = findBestMove(grid);
-    tiles[bestMove].click();
+    // and click!
+    if (bestMove != null)
+        tiles[bestMove].click();
 }
