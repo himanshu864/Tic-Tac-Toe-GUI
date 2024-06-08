@@ -9,6 +9,6 @@ export const algoPlayerTwo = (grid) => {
             if (grid[i][j] == -1)
                 ok.push(3 * i + j);
 
-    let r = Math.floor(Math.random() * (ok.length - 1))
+    let r = Math.floor(Math.random() * ok.length)
     tiles[ok[r]].click();
 }
