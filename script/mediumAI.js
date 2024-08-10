@@ -41,7 +41,7 @@ const instantKill = (grid, x) => {
     tiles[4].click();
     return true;
   }
-  if (grid[1][1] == x && gid[2][2] == x && grid[0][0] == -1) {
+  if (grid[1][1] == x && grid[2][2] == x && grid[0][0] == -1) {
     tiles[0].click();
     return true;
   }
